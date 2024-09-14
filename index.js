@@ -25,7 +25,7 @@ window.onload = function () {
 		if (onRotation) {
 			return;
 		}
-		console.log('开始抽奖');
+		console.log('中秋快乐');
 		onRotation = true;
 		lights.forEach(item => {
 			item.className += ' light-twinkling';
