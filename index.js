@@ -1,3 +1,4 @@
+
 window.onload = function () {
 	let getEl = document.getElementsByClassName.bind(document);
 	let pointer = getEl('pointer')[0];
@@ -16,7 +17,8 @@ window.onload = function () {
 			let rewardText = window.texts[Math.floor((currentDeg + 18) % 360 / 36)];
 			return {
 				deg: currentDeg,
-				text: rewardText === '谢谢参与'? '很遗憾你没有获得奖品' : '恭喜你获取'+rewardText
+				text: rewardText === '谢谢参与'? '很遗憾你没有获得奖品' : '恭喜你获取'+rewardText,
+				goTimes:1
 			}
 		}
 	})();
