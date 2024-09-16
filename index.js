@@ -18,7 +18,7 @@ window.onload = function () {
 			return {
 				deg: currentDeg,
 				text: rewardText === '谢谢参与'? '很遗憾你没有获得奖品' : '恭喜你获取'+rewardText,
-				goTimes:1
+				
 			}
 		}
 	})();
