@@ -135,33 +135,7 @@
     </style>
 </head>
 <body>
-	<template>
-  <div id="bg">
-    <img @click="go" class="pointer" src="./pointer.png" alt="pointer">
-    <img ref="turntable" class="turntable" src="./turntable.png" alt="turntable">
-    <h1>你的抽奖次数为:{{goTimes}}</h1>
-  </div>
-</template>
-
-<script>
-export default {
-  name:'App',
-  data(){
-    return {
-      isGo: false,              //是否正在执行动画
-      oTurntable:'',            //执行动画的对象
-      randomDeg: 0,             //即将旋转的度数   
-      lastDeg:0,                //上一次旋转的度数
-      goTimes:5					//抽奖次数
-    }
-  },
-  methods:{
-    go(){
-      if(!this.isGo && this.goTimes >0){ this.getNumber() }
-      else if(!this.isGo && this.goTimes <=0){ alert('抱歉您的抽奖次数用完了') } 
-      else return    			//表明正在抽奖，未结束扔点击无效
-    },
-	  </script>
+	
 
 <div class="wrapper">
     <div class="panel">
