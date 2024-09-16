@@ -48,4 +48,22 @@ window.onload = function () {
 		}, 300);
 	})
 };
+export default {
+ 
+  data(){
+    return {
+     
+      goTimes:1				//抽奖次数
+    }
+  },
+  methods:{
+    go(){
+      if(this.goTimes >0){ this.getNumber() }
+      else if( this.goTimes <=0){ alert('抱歉您的抽奖次数用完了') } 
+      else return    			//表明正在抽奖，未结束扔点击无效
+    }
+
+
+
+
 
