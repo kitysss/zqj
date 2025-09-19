@@ -1,190 +1,392 @@
 <!DOCTYPE html>
-<html lang="cn">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>中秋大转盘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中秋快乐抽奖转盘</title>
     <style>
-	    body{background: url("zq.png") ;
-		 background-size:100% 100%;
-		 background-attachment: fixed;
- 
-	    
-	    
-        
-
-		    
-	    }
-	    
         * {
             margin: 0;
             padding: 0;
-            border: none;
-            outline: none;
+            box-sizing: border-box;
         }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #d46854;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            color: #d46854;
+            text-align: center;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            font-size: 28px;
+        }
+        
+        .lottery-wrapper {
+            position: relative;
+            margin: 20px 0 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
         .wrapper {
             position: relative;
-            height: 200px;
-            width: 200px;
-            padding: 20px;
-            margin: 20px;
-            background-color: #c0381f;
-            box-shadow: 0 0 10px #000;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
             border-radius: 50%;
         }
+        
         .panel {
             position: relative;
-            height: 200px;
-            width: 200px;
+            height: 300px;
+            width: 300px;
             background-color: #b7b7b7;
-            border-radius: 100px;
+            border-radius: 150px;
         }
+        
         .pointer {
             position: absolute;
             z-index: 10;
-            height: 30px;
-            width: 30px;
-            /*left: 50%;*/
-            /*top: 50%;*/
-            left: 79px;
-            top: 79px;
-            /*transform: translate(-50%, -50%);*/
+            height: 40px;
+            width: 40px;
+            left: 130px;
+            top: 130px;
             background-color: #dc5b5b;
             color: #fff899;
             border-radius: 50%;
             border: 1px solid #c0381f;
             text-align: center;
-            font-size: 12px;
-            line-height: 15px;
-            padding: 6px;
+            font-size: 14px;
+            line-height: 18px;
+            padding: 10px;
             transform-origin: center;
             transition: transform 3s cubic-bezier(.2,.93,.43,1);
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
+        
+        .pointer.disabled {
+            background-color: #b7b7b7;
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+        
         .pointer::after {
             content: '';
             position: absolute;
             width: 0;
             height: 0;
-            top: -24px;
-            /*left: 50%;*/
-            left: 14px;
-            /*transform: translateX(-50%);*/
+            top: -30px;
+            left: 19px;
             border-style: solid;
-            border-width: 12px 6px;
+            border-width: 15px 8px;
             border-color: transparent transparent #dc5b5b transparent;
         }
-
+        
+        .pointer.disabled::after {
+            border-color: transparent transparent #b7b7b7 transparent;
+        }
+        
         .sector {
             position: absolute;
             left: 50%;
             top: 0;
             transform: translateX(-50%);
-            width: 100px;
-            height: 200px;
-            border-radius: 0 100px 100px 0;
+            width: 150px;
+            height: 300px;
+            border-radius: 0 150px 150px 0;
             overflow: hidden;
             transform-origin: left center;
         }
+        
         .sector-inner {
-            width: 40px;
-            height: 195px;
-            padding: 5px 3px 0 57px;
+            width: 60px;
+            height: 290px;
+            padding: 10px 5px 0 85px;
             background: #ffeab1;
-            transform: translateX(-100px) rotate(36deg);
+            transform: translateX(-150px) rotate(36deg);
             transform-origin: right center;
-            border-radius: 100px 0 0 100px;
+            border-radius: 150px 0 0 150px;
             text-align: center;
         }
+        
         .sector-inner span {
             display: block;
             transform-origin: center;
             transform: rotate(-19deg);
             color: #d46854;
+            font-weight: bold;
         }
+        
         .light {
             position: absolute;
-            height: 10px;
-            width: 10px;
+            height: 12px;
+            width: 12px;
             border-radius: 50%;
-            top: 5px;
-            left: 115px;
-            transform-origin: 5px 115px;
+            top: 8px;
+            left: 169px;
+            transform-origin: 6px 142px;
         }
+        
         .light-twinkling {
             animation: 1s twinkling 3, 100ms 3s twinkling 3;
         }
+        
         .light:nth-child(2n) {
             background-color: #fafce7;
         }
+        
         .light:nth-child(2n + 1) {
             background-color: #ffe58b;
         }
+        
         .sector:nth-child(1) {
             transform: rotate(-18deg);
         }
+        
         .sector:nth-child(2n + 1) .sector-inner {
             background: #fef6e0;
         }
+        
         .sector:nth-child(2n) .sector-inner {
             background: #fff;
         }
+        
         @keyframes twinkling {
             50% {
                 background: transparent;
             }
         }
+        
+        .result-message {
+            margin-top: 20px;
+            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d46854;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #d46854;
+            font-weight: bold;
+        }
+        
+        .instructions {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+        }
+        
+        .chance-indicator {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin-top: 10px;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .screenshot-hint {
+            background: #d46854;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
     </style>
 </head>
 <body>
-	
-
-<div class="wrapper">
-    <div class="panel">
-        <div class="pointer">中秋快乐</div>
+    <div class="container">
+        <h1>中秋快乐抽奖转盘</h1>
+        
+        <div class="instructions">
+            <p>点击"中秋快乐"按钮开始抽奖，您只有一次机会！</p>
+        </div>
+        
+        <div class="chance-indicator">
+            剩余抽奖次数: <span id="chance-count">1</span>
+        </div>
+        
+        <div class="lottery-wrapper">
+            <div class="wrapper">
+                <div class="panel">
+                    <div class="pointer">中秋快乐</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="result-message" id="result">
+            点击"中秋快乐"按钮，测试你的中秋运气！
+        </div>
+        
+        <div class="screenshot-hint" id="screenshot-hint" style="display: none;">
+            请截图保存您的抽奖结果！
+        </div>
+        
+        <div class="footer">
+            <p>你的抽奖次数为一次，请截图领取奖品！！</p>
+        </div>
     </div>
-</div>
-<div class="test"></div>
-<script>
-    let lastAngle = -18,lightAngle = 36;
-    const texts = ['谢谢参与', '请喝奶茶', '谢谢参与', '请吃月饼', '出来赏月', '谢谢参与', '八块一毛五', '谢谢参与', '谢谢参与', '出来吃饭'];
-    window.texts = texts;
-    let fragment = document.createDocumentFragment();
-	for (let i = 0; i < texts.length; i++) {
-		let sector = document.createElement('div');
-		sector.className = 'sector';
-		sector.style.transform = `rotate(${lastAngle}deg)`;
-		lastAngle += 36;
-        let innerSector = document.createElement('div');
-	    innerSector.className = 'sector-inner';
-	    let span = document.createElement("span");
-	    span.innerText = texts[i];
-        innerSector.append(span);
-        sector.append(innerSector);
-        fragment.append(sector);
-	}
-	const panel = document.getElementsByClassName('panel')[0];
-	panel.append(fragment);
 
-	// wrapper
-    const wrapper = document.getElementsByClassName('wrapper')[0];
-    let fragmentLight = document.createDocumentFragment();
-	for (let i = 0; i < 10; i++) {
-        const light = document.createElement('div');
-        light.className = 'light';
-        if (i > 0) {
-        	light.style.transform = `rotate(${lightAngle}deg)`;
-        	lightAngle += 36;
+    <script>
+        // 初始化转盘
+        let lastAngle = -18, lightAngle = 36;
+        const texts = ['谢谢参与', '请喝奶茶', '谢谢参与', '请吃月饼', '出来赏月', '谢谢参与', '八块一毛五', '谢谢参与', '谢谢参与', '出来吃饭'];
+        
+        let fragment = document.createDocumentFragment();
+        for (let i = 0; i < texts.length; i++) {
+            let sector = document.createElement('div');
+            sector.className = 'sector';
+            sector.style.transform = `rotate(${lastAngle}deg)`;
+            lastAngle += 36;
+            
+            let innerSector = document.createElement('div');
+            innerSector.className = 'sector-inner';
+            
+            let span = document.createElement("span");
+            span.innerText = texts[i];
+            
+            innerSector.append(span);
+            sector.append(innerSector);
+            fragment.append(sector);
         }
-        fragmentLight.append(light);
-	}
-    wrapper.append(fragmentLight);
-</script>
-<script src="index.js"></script>
-	
-  <div>
-    <h1 color="red">你的抽奖次数为一次，请截图领取奖品！！</h1>
-  </div>
+        
+        const panel = document.querySelector('.panel');
+        panel.append(fragment);
 
+        // 添加灯光效果
+        const wrapper = document.querySelector('.wrapper');
+        let fragmentLight = document.createDocumentFragment();
+        
+        for (let i = 0; i < 10; i++) {
+            const light = document.createElement('div');
+            light.className = 'light';
+            if (i > 0) {
+                light.style.transform = `rotate(${lightAngle}deg)`;
+                lightAngle += 36;
+            }
+            fragmentLight.append(light);
+        }
+        
+        wrapper.append(fragmentLight);
 
-
+        // 抽奖逻辑
+        window.onload = function () {
+            const pointer = document.querySelector('.pointer');
+            const resultElement = document.getElementById('result');
+            const chanceCountElement = document.getElementById('chance-count');
+            const screenshotHint = document.getElementById('screenshot-hint');
+            
+            let lights = Array.prototype.slice.call(document.querySelectorAll('.light'));
+            let onRotation = false;
+            let hasSpun = false; // 标记是否已经抽过奖
+            
+            // 获取奖励函数
+            let getReward = (function () {
+                let currentDeg = 0;
+                return function () {
+                    // 旋转3~4圈
+                    let rotateDeg = Math.random() * 360 + 1080;
+                    currentDeg += rotateDeg;
+                    let rewardText = texts[Math.floor((currentDeg + 18) % 360 / 36)];
+                    return {
+                        deg: currentDeg,
+                        text: rewardText === '谢谢参与' ? '很遗憾你没有获得奖品' : '恭喜你获取 ' + rewardText,
+                    }
+                }
+            })();
+            
+            // 开始抽奖
+            function startSpin() {
+                if (onRotation || hasSpun) return;
+                
+                console.log('开始抽奖');
+                onRotation = true;
+                hasSpun = true;
+                
+                // 更新剩余次数显示
+                chanceCountElement.textContent = '0';
+                
+                // 灯光闪烁效果
+                lights.forEach(item => {
+                    item.classList.add('light-twinkling');
+                });
+                
+                let nextStatus = getReward();
+                console.log(nextStatus);
+                
+                pointer.style.transform = `rotateZ(${nextStatus.deg}deg)`;
+                
+                // 保存结果用于动画结束后显示
+                pointer.dataset.result = nextStatus.text;
+            }
+            
+            // 点击指针开始抽奖
+            pointer.addEventListener('click', startSpin);
+            
+            // 转盘动画结束事件
+            pointer.addEventListener('transitionend', () => {
+                console.log('抽奖结束');
+                
+                // 等待闪烁三下结束
+                setTimeout(() => {
+                    onRotation = false;
+                    lights.forEach(item => item.classList.remove('light-twinkling'));
+                    
+                    // 显示结果
+                    if (pointer.dataset.result) {
+                        resultElement.textContent = pointer.dataset.result;
+                        delete pointer.dataset.result;
+                        
+                        // 显示截图提示
+                        screenshotHint.style.display = 'block';
+                        
+                        // 禁用指针
+                        pointer.classList.add('disabled');
+                    }
+                }, 300);
+            });
+        };
+    </script>
 </body>
 </html>
